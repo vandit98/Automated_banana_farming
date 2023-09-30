@@ -1,12 +1,21 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Auth0Provider } from '@auth0/auth0-react';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
   <React.StrictMode>
+    <Auth0Provider
+      domain="dev-lglwplylbe8gtz5y.us.auth0.com"
+      clientId="kTVQRhlbk7XT8fcByJrI7KXYHdlB4x5F"
+      authorizationParams={{
+        redirect_uri: 'http://localhost:3000/landing'
+      }}
+    >
     <App />
+  </Auth0Provider>
   </React.StrictMode>,
   document.getElementById('root')
 );

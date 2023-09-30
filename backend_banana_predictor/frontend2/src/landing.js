@@ -11,8 +11,12 @@ import GlobalStyles from '@mui/joy/GlobalStyles';
 import CardOverflow from '@mui/joy/CardOverflow';
 import Divider from '@mui/joy/Divider';
 import Chip from '@mui/joy/Chip';
+import { useAuth0 } from "@auth0/auth0-react";
+import Avatar from '@mui/joy/Avatar';
  
 export const Landing = () => {
+    const { user, loginWithRedirect, isAuthenticated, logout } = useAuth0();
+    console.log("Current User", user);
     return (
         <CssVarsProvider defaultMode="dark">
             <GlobalStyles
@@ -22,12 +26,13 @@ export const Landing = () => {
                 backgroundColor: '#272727',
                 backgroundImage: 'url(https://images.unsplash.com/photo-1520658289427-977eb66c2dbd?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2669&q=80)',
                 backgroundSize: 'fill',
-                overflow: 'hidden',
+                overflowX: 'hidden',
+                overflowY: 'auto',
                 backgroundFilter: 'blur(100px)',
             },
             }}
         />
-        <Grid container spacing={8}
+        <Grid container spacing={6}
         margin="auto">
         <Grid  xs={12} display="flex" justifyContent="center">
             <Typography level="h1" style={{ fontSize: '64px' }}>{''}
@@ -37,7 +42,13 @@ export const Landing = () => {
             </Typography>
             
         </Grid>
-        <Divider></Divider>
+        { isAuthenticated &&
+        <Grid  xs={12} display="flex" justifyContent="center" alignItems="center" >
+            <Avatar sx={{ ml:2, mr:2}} alt="Avatar" src={user.picture} />
+            <Typography level="h4">{user.name}</Typography>
+            <Button sx={{ ml:2}}color="danger" variant="outlined" onClick={(e) => logout()}>Logout</Button>
+        </Grid>
+        }   
         <Grid container spacing={12} xs={12} display="flex" justifyContent="center">
         <Grid xs={3.5}>
             <Card variant="solid"
@@ -55,8 +66,8 @@ export const Landing = () => {
             <CardOverflow>
                 <AspectRatio ratio="2">
                 <img
-                    src="https://images.unsplash.com/photo-1532614338840-ab30cf10ed36?auto=format&fit=crop&w=318"
-                    srcSet="https://images.unsplash.com/photo-1532614338840-ab30cf10ed36?auto=format&fit=crop&w=318&dpr=2 2x"
+                    src="https://images.unsplash.com/photo-1566393028639-d108a42c46a7?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2643&q=80"
+
                     loading="lazy"
                     alt=""
                 />
@@ -97,8 +108,7 @@ export const Landing = () => {
             <CardOverflow>
                 <AspectRatio ratio="2">
                 <img
-                    src="https://images.unsplash.com/photo-1532614338840-ab30cf10ed36?auto=format&fit=crop&w=318"
-                    srcSet="https://images.unsplash.com/photo-1532614338840-ab30cf10ed36?auto=format&fit=crop&w=318&dpr=2 2x"
+                    src="https://img.emedihealth.com/wp-content/uploads/2023/02/ripe-or-unripe-banana-feat.jpg"
                     loading="lazy"
                     alt=""
                 />
@@ -142,8 +152,7 @@ export const Landing = () => {
             <CardOverflow>
                 <AspectRatio ratio="2">
                 <img
-                    src="https://images.unsplash.com/photo-1532614338840-ab30cf10ed36?auto=format&fit=crop&w=318"
-                    srcSet="https://images.unsplash.com/photo-1532614338840-ab30cf10ed36?auto=format&fit=crop&w=318&dpr=2 2x"
+                    src="https://images.unsplash.com/photo-1610989569524-40c18b22ace2?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2576&q=80"
                     loading="lazy"
                     alt=""
                 />
@@ -242,8 +251,9 @@ export const Landing = () => {
             />
         </Grid>
         </Grid>
+        <Grid  xs={12} display="flex" justifyContent="center">
         
-        
+        </Grid>
         </Grid>
         </CssVarsProvider>
     );
