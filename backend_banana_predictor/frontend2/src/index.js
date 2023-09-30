@@ -11,7 +11,7 @@ ReactDOM.render(
       domain="dev-lglwplylbe8gtz5y.us.auth0.com"
       clientId="kTVQRhlbk7XT8fcByJrI7KXYHdlB4x5F"
       authorizationParams={{
-        redirect_uri: 'http://localhost:3000/landing'
+        redirect_uri: 'https://bafybeif4dgtwyvpckfdbn2zw462dcd6umtkyekfg67avkrgn2vwg3lspqy.ipfs.sphn.link/landing'
       }}
     >
     <App />
