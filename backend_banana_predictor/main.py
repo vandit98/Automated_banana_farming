@@ -9,8 +9,16 @@ from PIL import Image
 import tensorflow as tf
 import matplotlib.pyplot as plt
 import cv2
-app = FastAPI()
+app = FastAPI
 
+
+latitude = np.random.uniform(-90, 90)
+
+# Generate a random longitude (-180 to +180 degrees)
+longitude = np.random.uniform(-180, 180)
+
+# print("Random Latitude:", latitude)
+# print("Random Longitude:", longitude)
 
 origin = [
     "http://localhost",
@@ -57,7 +65,9 @@ async def predict(
         predicted_class="Rotten Banana"
     return {
         'class': predicted_class,
-        'confidence': float(confidence)
+        'confidence': float(confidence),
+        "lattitude":latitude,
+        "longitude":longitude
     }
 
 
@@ -97,37 +107,10 @@ async def predict2():
             cv2.destroyAllWindows()
             return {
                 'class': predicted_class,
-                'confidence': float(confidence)
+                'confidence': float(confidence),
+                "lattitude":latitude,
+                "longitude":longitude
             }
     
 
    
-
-# @app.post("/predict2")
-# async def predict2():
-#     cap = cv2.VideoCapture(0)
-
-#     ret, frame = cap.read()
-#     cap.release()
-#     img_pil = Image.fromarray(frame)
-#     img_byte_arr = BytesIO()
-#     img_pil.save(img_byte_arr, format='jpeg')
-#     img_byte_arr = img_byte_arr.getvalue()
-#     img = read_file_as_image(img_byte_arr)
-#     img_batch = np.expand_dims(img, 0)
-#     img_batch = tf.image.resize(img_batch, (256, 256))
-#     prediction = MODEL.predict(img_batch)
-#     predicted_class = CLASS_NAMES[np.argmax(prediction[0])]
-#     confidence = np.max(prediction[0])
-#     if predicted_class == "Banana_G2":
-#         predicted_class = "Green Banana - not ripe"
-#     elif predicted_class == "Banana_G1":
-#         predicted_class = "Mature Banana - ripe"
-#     else:
-#         predicted_class = "Rotten Banana"
-#     return {
-#         'class': predicted_class,
-#         'confidence': float(confidence)
-#     }
-
-
