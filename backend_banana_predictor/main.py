@@ -69,8 +69,22 @@ async def predict(
         predicted_class="Mature Banana -ripen"
     else:
         predicted_class="Rotten Banana"
+
+    obj =  {
+                'class': predicted_class,
+                'confidence': float(confidence),
+                "lattitude":latitude,
+                "longitude":longitude
+            }
+    payload = str(obj)
+    url = "https://play.orkes.io/api/workflow/croptech"
+    headers = {
+  'Content-Type': 'application/json; charset=utf-8',
+  'X-Authorization': os.getenv('OREKUS_AUTH_KEY')
+}
+    response = requests.request("POST", url, headers=headers, data=payload)
     return {
-        'class': predicted_class,
+        'predicted_class': predicted_class,
         'confidence': float(confidence),
         "lattitude":latitude,
         "longitude":longitude
@@ -110,7 +124,8 @@ async def predict2():
             cv2.imshow('captured image', frame)
             k=cv2.waitKey(0)
             cap.release()
-            cv2.destroyAllWindows()
+            cv2.destroyAllWindows()            
+
             return {
                 'class': predicted_class,
                 'confidence': float(confidence),
