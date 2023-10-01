@@ -258,7 +258,7 @@ export const ImageUpload = () => {
                     <TableBody className={classes.tableBody}>
                       <TableRow className={classes.tableRow}>
                         <TableCell component="th" scope="row" className={classes.tableCell}>
-                          {data.class}
+                          {data.predicted_class}
                         </TableCell>
                         <TableCell align="right" className={classes.tableCell}>{confidence}%</TableCell>
                       </TableRow>
