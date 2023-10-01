@@ -10,6 +10,7 @@ import tensorflow as tf
 import matplotlib.pyplot as plt
 import cv2
 import json
+import requests
 import os
 from pymongo.mongo_client import MongoClient
 from pymongo.server_api import ServerApi
