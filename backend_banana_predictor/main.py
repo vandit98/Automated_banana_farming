@@ -10,6 +10,12 @@ import tensorflow as tf
 import matplotlib.pyplot as plt
 import cv2
 import json
+import os
+from pymongo.mongo_client import MongoClient
+from pymongo.server_api import ServerApi
+from dotenv import load_dotenv
+load_dotenv()
+
 app = FastAPI()
 
 
@@ -22,8 +28,7 @@ longitude = np.random.uniform(-180, 180)
 # print("Random Longitude:", longitude)
 
 origin = [
-    "http://localhost",
-    "http://localhost:3000",
+   "*"
 ]
 app.add_middleware(
     CORSMiddleware,
@@ -119,7 +124,6 @@ from pydantic import BaseModel
 
 # Define a request model to handle the inputs
 class MongoInput(BaseModel):
-    image_id: str  # Assuming image_id is a string
     predicted_class: str
     confidence: float
     latitude: float
@@ -132,14 +136,16 @@ async def mongo(input_data: MongoInput):
     
     # Create a dictionary to store the data
     result_dict = {
-        'image_id': input_data.image_id,
-        'class': input_data.predicted_class,
-        'confidence': input_data.confidence,
-        'latitude': input_data.latitude,
-        'longitude': input_data.longitude
+        "class": input_data.predicted_class,
+        "confidence": input_data.confidence,
+        "latitude": input_data.latitude,
+        "longitude": input_data.longitude
     }
-    
-    # Convert the result_dict to a JSON string
-    result_json = json.dumps(result_dict)
-    
-    return result_json
+
+    uri = os.getenv('MONGODB_URI')
+    print(uri)
+    client = MongoClient(uri, server_api=ServerApi('1'))
+    db = client['croptech']
+    collection = db['croptech']
+    collection.insert_one(result_dict)
+    return result_dict
