@@ -9,7 +9,8 @@ from PIL import Image
 import tensorflow as tf
 import matplotlib.pyplot as plt
 import cv2
-app = FastAPI
+import json
+app = FastAPI()
 
 
 latitude = np.random.uniform(-90, 90)
@@ -20,7 +21,10 @@ longitude = np.random.uniform(-180, 180)
 # print("Random Latitude:", latitude)
 # print("Random Longitude:", longitude)
 
-origin = ["*"]
+origin = [
+    "http://localhost",
+    "http://localhost:3000",
+]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origin,
@@ -28,6 +32,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
 
 
 MODEL=tf.keras.models.load_model("./1")
@@ -107,6 +112,34 @@ async def predict2():
                 "lattitude":latitude,
                 "longitude":longitude
             }
-    
 
-   
+
+                
+from pydantic import BaseModel
+
+# Define a request model to handle the inputs
+class MongoInput(BaseModel):
+    image_id: str  # Assuming image_id is a string
+    predicted_class: str
+    confidence: float
+    latitude: float
+    longitude: float
+
+
+@app.post("/mongo_feasible_input")
+async def mongo(input_data: MongoInput):
+    # Access the input data using input_data.image_id, input_data.predicted_class, etc.
+    
+    # Create a dictionary to store the data
+    result_dict = {
+        'image_id': input_data.image_id,
+        'class': input_data.predicted_class,
+        'confidence': input_data.confidence,
+        'latitude': input_data.latitude,
+        'longitude': input_data.longitude
+    }
+    
+    # Convert the result_dict to a JSON string
+    result_json = json.dumps(result_dict)
+    
+    return result_json
