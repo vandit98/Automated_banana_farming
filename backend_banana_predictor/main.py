@@ -20,10 +20,7 @@ longitude = np.random.uniform(-180, 180)
 # print("Random Latitude:", latitude)
 # print("Random Longitude:", longitude)
 
-origin = [
-    "http://localhost",
-    "http://localhost:3000",
-]
+origin = ["*"]
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origin,
@@ -31,7 +28,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
 
 
 MODEL=tf.keras.models.load_model("./1")
